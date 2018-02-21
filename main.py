@@ -9,7 +9,7 @@ from collections import defaultdict
 import json
 
 
-NOTHING, READ, STREAK = ' #.'
+NOTHING, READ, STREAK = ' #|'
 
 def main():
     # INPUTS
