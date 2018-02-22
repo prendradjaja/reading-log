@@ -1,3 +1,8 @@
+To actually use:
+
+    Paste spreadsheet into data.tsv (tab-separated!)
+    make run
+
 For convenience during development:
 
     nnoremap ZW :w<CR>:!make run<CR>
