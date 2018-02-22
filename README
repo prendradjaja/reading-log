@@ -2,7 +2,3 @@ For convenience during development:
 
     nnoremap ZW :w<CR>:!make run<CR>
     nnoremap ZM :w<CR>:!make run-diff<CR>
-
-To do:
-
-    #--- is not a streak. #--# is a streak.

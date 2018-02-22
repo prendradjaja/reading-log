@@ -15,7 +15,7 @@ def main():
     # INPUTS
     start = parse('2/7/2018')
     end = parse('2/22/2018')
-    n = 3  # how long is the streak 'tail' (including the first day)
+    n = 4  # read at least this often (in days) to keep a streak going
     input_path = 'example-input'
 
     #######################################################
@@ -29,20 +29,23 @@ def main():
         d = parse(s_date)
         table[shortcode][to_string(d)] = READ
 
-    streak_starters = {}
     shortcodes = sorted(table.keys())
-    for d in date_range(start - timedelta(n), end):
-        datestring = to_string(d)
-        for s in shortcodes:
+    for s in shortcodes:
+        streak_start = None
+        for d in date_range(start - timedelta(n), end):
+            datestring = to_string(d)
             if table[s][datestring] == READ:
-                streak_starters[s] = d
-            else:
-                starter = streak_starters.get(s)
-                if starter and d - starter < timedelta(n):
-                    table[s][datestring] = STREAK
+                if streak_start and d - streak_start < timedelta(n + 1):
+                    fill_streak(table[s], streak_start, d)
+                streak_start = d
 
 
     print_tabular(table, start, end)
+
+def fill_streak(table_s, start, end):
+    for d in date_range(start, end, include_start=False, include_end=False):
+        datestring = to_string(d)
+        table_s[datestring] = STREAK
 
 def print_json(table):
     print(json.dumps(table, indent=3, sort_keys=True))
@@ -60,7 +63,14 @@ def print_row(*args):
         print(each, end='\t')
     print()
 
-def date_range(start_date, end_date):
+def date_range(start_date, end_date, include_start=True, include_end=True):
+    """
+    Inclusive by default.
+    """
+    if not include_start:
+        start_date += timedelta(1)
+    if not include_end:
+        end_date -= timedelta(1)
     d = start_date
     while d <= end_date:
         yield d
