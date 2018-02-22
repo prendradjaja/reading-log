@@ -13,10 +13,10 @@ NOTHING, READ, STREAK = ' #|'
 
 def main():
     # INPUTS
-    start = parse('2/7/2018')
-    end = parse('2/22/2018')
-    n = 4  # read at least this often (in days) to keep a streak going
-    input_path = 'example-input'
+    end = date.today()
+    start = end - timedelta(28)
+    n = 7  # read at least this often (in days) to keep a streak going
+    input_path = 'data.tsv'
 
     #######################################################
     # table[book][day]
